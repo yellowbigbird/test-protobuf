@@ -1,0 +1,273 @@
+{
+  "additionalInfos": {
+    "info": {
+      "str0": "dummy0",
+      "str1": "dummy1"
+    }
+  },
+  "basicInfo": {
+    "currency": "EUR",
+    "deepLink": "https://www.skyscanner.net/transport_deeplink/4.0/UK/en-GB/GBP/vuel/2/13542.9772.",
+    "locale": "en-GB",
+    "pointOfSale": {
+      "deviceInfo": {
+        "browserName": "mobile-app",
+        "browserVersion":"0.9.1",
+        "deviceType":"DEVICE_TYPE_MOBILE",
+        "ipAddressText":"10.12.11.22",
+        "osName":"android",
+        "osVersion":"6.0.1",
+        "appVersion":"0.0.4"
+      },
+      "location": {
+        "city": {
+          "cityName": "Shanghai",
+          "iataLocationCode": "SHA"
+        },
+        "country": {
+          "countryCode": "CN",
+          "countryName": "CHINA"
+        }
+      },
+      "market": "UK"
+    },
+    "proposition": "PROPOSITION_BWS",
+    "testBooking": true,
+    "websiteId": "vuel"
+  },
+  "contactInfo": {
+    "contactEmail": "halo@skyscanner.net",
+    "phoneInfo": {
+      "areaCode": "0831",
+      "countryCode": "86",
+      "phoneNumber": "15012341234"
+    },
+    "postalAddress": {
+      "city": "Shenzhen",
+      "countryCode": "CN",
+      "postalCode": "93021",
+      "state": "California",
+      "street": "Nanhai Avenue"
+    }
+  },
+  "flightData": {
+    "legs": [{
+      "legId": "leg_sha_hkg",
+      "destination": {
+        "airportIataCode": "HKG",
+        "datetime": "2019-05-09T03:17:11Z"
+      },
+      "origin": {
+        "airportIataCode": "SHA",
+        "datetime": "2019-05-08T03:17:11Z"
+      },
+      "segmentReferences": ["seg_sha_hkg"]
+    }],
+    "segments": [{
+      "segmentId": "seg_sha_hkg",
+      "arrival": {
+        "airportIataCode": "HKG",
+        "datetime": "2019-05-09T03:17:11Z"
+      },
+      "departure": {
+        "airportIataCode": "SHA",
+        "datetime": "2019-05-08T03:17:11Z"
+      },
+      "fareBasisCode": "WH7LNR",
+      "serviceClassCode": "Y",
+      "marketingCarrierInfo": {
+        "carrierCode": "CA",
+        "carrierName": "China Airline",
+        "flightNumberText": "7381",
+        "skyscannerCarrierId": "-32356"
+      },
+      "operatingCarrierInfo": {
+        "carrierCode": "CA",
+        "carrierName": "China Airline",
+        "flightNumberText": "7381",
+        "skyscannerCarrierId": "-32356"
+      }
+    }]
+  },
+  "paymentInfo": {
+    "fraudDataToken": "23lnlkcvxvcx",
+    "paymentMethod": {
+      "paymentCard": {
+        "cardBrandCode": "VI",
+        "cardProductTypeCode": "VISA",
+        "cardTypeText": "credit",
+        "encryptedCardNumber": "4100xxxx1234",
+        "encryptedCardSecurityCode": "112",
+        "expirationDate": "0922",
+        "holderContact": {
+          "contactEmail": "halo@skyscanner.net",
+          "phoneInfo": {
+            "areaCode": "0831",
+            "countryCode": "86",
+            "phoneNumber": "15012341234"
+          },
+          "postalAddress": {
+            "city": "Shenzhen",
+            "countryCode": "CN",
+            "postalCode": "93021",
+            "state": "California",
+            "street": "Shenlandadao"
+          }
+        },
+        "holderName": {
+          "firstName": "Halo",
+          "middleName": "dummy",
+          "lastName": "Squad",
+          "title": "TITLE_MR"
+        }
+      }
+    },
+    "paymentPrice": {
+      "totalAmount": {
+        "amount": {
+          "amount": 110.50
+        },
+        "currency": "EUR"
+      },
+      "priceBreakdown": {
+        "cardSurcharge": {
+          "total": {
+            "amount": {
+              "amount": 10.00
+            },
+            "currency": "EUR"
+          },
+          "percentage": 0.10,
+          "surchargeCap": 20,
+          "fees": [
+            {
+              "amount": {
+                "amount": 10.00
+              },
+              "currency": "EUR"
+            }
+          ]
+        },
+        "pricedItems": [
+          {
+            "itemId": "item_0",
+            "base": {
+              "amount": {
+                "amount": 50.50
+              },
+              "currency": "EUR",
+              "description": {
+                "link": "www.vueling.com",
+                "text": "dummy"
+              }
+            },
+            "totalAmount": {
+              "amount": {
+                "amount": 110.50
+              },
+              "currency": "EUR"
+            },
+            "surcharges": [
+              {
+                "amount": {
+                  "amount": 50.50
+                },
+                "currency": "EUR",
+                "description": {
+                  "link": "www.vueling.com",
+                  "text": "dummy"
+                }
+              }
+            ],
+            "tax": [
+              {
+                "amount": {
+                  "amount": 20.50
+                },
+                "currency": "EUR",
+                "description": {
+                  "link": "www.vueling.com",
+                  "text": "dummy"
+                },
+                "taxCode": "AY",
+                "taxName": "IQ tax"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "remarketingConsent": true,
+  "selectedOffer": {
+    "offerId": "offer_01",
+    "selectedOfferItems": [
+      {
+        "legReferences": [
+          "leg_SHA_LON"
+        ],
+        "offerItemId": "offer_item_01",
+        "segmentReferences": [
+          "seg_SHA_LON"
+        ],
+        "travelerReferences": [
+          "traveller_0"
+        ]
+      }
+    ]
+  },
+  "selectedOptionalExtras": [{
+    "id": "option_0",
+    "name": "seat",
+    "description": {
+      "link": "www.vueling.com",
+      "text": "dummy"
+    },
+    "legReferences": ["leg_sha_hkg"],
+    "segmentReferences": ["seg_sha_hkg"],
+    "travelerReferences": ["traveler_0"],
+    "price": {
+      "amount": {
+        "amount": 110.50
+      },
+      "currency": "EUR"
+    }
+  }],
+  "skyscannerBookingId": "1122334455667788",
+  "travelers": {
+    "traveler_0": {
+      "age": 32,
+      "dateOfBirth": {
+        "year": 1980,
+        "month": 1,
+        "day": 13
+      },
+      "gender": "GENDER_MALE",
+      "identityDoc": {
+        "docNumber": "SFSD2312",
+        "expiryDate": {
+          "year": 1980,
+          "month": 1,
+          "day": 13
+        },
+        "identityDocTypeCode": "PASSPORT",
+        "issueDate": {
+          "year": 1980,
+          "month": 1,
+          "day": 13
+        },
+        "issuingCountryCode": "CHN",
+        "residenceCountryCode": "CHN"
+      },
+      "lead": true,
+      "name": {
+        "firstName": "Halo",
+        "middleName": "middle",
+        "lastName": "Squad",
+        "title": "TITLE_MR"
+      },
+      "travelerCategoryCode": "TRAVELER_CATEGORY_CODE_ADT",
+      "travelerId": "traveller_0"
+    }
+  }
+}

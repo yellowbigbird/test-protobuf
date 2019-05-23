@@ -1,0 +1,30 @@
+{
+  "currency": "EUR",
+  "deepLink": "FDSFDSFDS",
+  "locale": "en-GB",
+  "pointOfSale": {
+    "deviceInfo": {
+      "browserName": "mobile-app",
+      "browserVersion":"0.9.1",
+      "deviceType":"DEVICE_TYPE_MOBILE",
+      "ipAddressText":"10.12.11.22",
+      "osName":"android",
+      "osVersion":"6.0.1",
+      "appVersion":"0.0.4"
+    },
+    "location": {
+      "city": {
+        "cityName": "Shanghai",
+        "iataLocationCode": "SHA"
+      },
+      "country": {
+        "countryCode": "CN",
+        "countryName": "CHINA"
+      }
+    },
+    "market": "UK"
+  },
+  "proposition": "PROPOSITION_BWS",
+  "testBooking": true,
+  "websiteId": "vuel"
+}

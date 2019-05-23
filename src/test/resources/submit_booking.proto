@@ -1,0 +1,401 @@
+syntax = "proto3";
+package submit_booking; //version 0.0.4
+
+option java_package = "schema";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+//import "proto";
+
+
+message Carrier {
+    // Airline code assigned to a carrier. Either ICAO-defined 3-character code or IATA-defined 2-character code.
+    string carrier_code = 1;
+    string carrier_name = 2;
+
+    // The numerical designation of a flight as it is marketed by a carrier.
+    string flight_number_text = 3;
+
+    // Skyscanner id to identify Carriers.
+    // See https://confluence.skyscannertools.net/display/~michaelewins/Carrier+Examples for details.
+    string skyscanner_carrier_id = 4;
+}
+
+message IdentityDoc {
+    string doc_number = 1;
+
+    // The date the identity document expires.
+    Date expiry_date = 2;
+
+    // The type of passenger document.  Examples: PT (Passport)
+    string identity_doc_type_code = 3;
+
+    // The date the identity document was issued.
+    Date issue_date = 4;
+
+    // ISO Country Code (can be extended by bilateral agreement in case of exceptions, e.g. Kosovo). Examples: US, FR.
+    string issuing_country_code = 5;
+    string residence_country_code = 6;
+}
+
+message Name {
+    string first_name = 1;
+    string last_name = 2;
+    string middle_name = 3;
+    enum Title {
+        TITLE_UNSET = 0;
+        TITLE_MR = 1;
+        TITLE_MS = 2;
+        TITLE_MRS = 3;
+        TITLE_MISS = 4;
+        TITLE_DR = 5;
+    }
+    Title title = 4;
+}
+
+message PhoneNumber {
+    string area_code = 1;
+    string country_code = 2;
+    string phone_number = 3;
+}
+
+message PostalAddress {
+    string city = 1;
+    string country_code = 2;
+    string postal_code = 3;
+    string state = 4;
+    string street = 5;
+}
+
+message TransportInfo {
+    string airport_iata_code = 1;
+    google.protobuf.Timestamp datetime = 2;
+}
+
+message TravelerInfo {
+    int32 age = 1;
+    Date date_of_birth = 2;
+    enum Gender {
+        GENDER_UNSET = 0;
+        GENDER_MALE = 1;
+        GENDER_FEMALE = 2;
+    }
+    Gender gender = 3;
+    IdentityDoc identity_doc = 4;
+
+    // Is this a lead passenger
+    bool lead = 5;
+    Name name = 6;
+    enum TravelerCategoryCode {
+        TRAVELER_CATEGORY_CODE_ADT = 0;
+        TRAVELER_CATEGORY_CODE_CHD = 1;
+        TRAVELER_CATEGORY_CODE_INF = 2;
+    }
+    TravelerCategoryCode traveler_category_code = 7;
+    string traveler_id = 8;
+}
+
+message ContactInfo {
+    string contact_email = 1;
+    PhoneNumber phone_info = 2;
+    PostalAddress postal_address = 3;
+}
+
+message Leg {
+    TransportInfo destination = 1;
+    string leg_id = 2;
+    TransportInfo origin = 3;
+    // segment id list
+    repeated string segment_references = 4;
+}
+
+message OptionalExtra {
+    Description description = 1;
+    string id = 2;
+    repeated string leg_references = 3;
+    string name = 4;
+    repeated string segment_references = 5;
+    repeated string traveler_references = 7;
+    Price price = 8;
+}
+
+message PaymentCard {
+    // A two-letter code assigned according to IATA Resolution 728. Example: VI for Visa
+    string card_brand_code = 1;
+    // Used to specify whether the card is a Consumer (personal) or Commercial (corporate) card.
+    string card_product_type_code = 2;
+    // Additional description for the magnetic stripe card type (debit card, credit card, prepaid card, etc.)
+    string card_type_text = 3;
+    string encrypted_card_number = 4;
+
+    // 3-digit number printed on the signature panel on the back of the card and following the last four digits of the
+    // Primary Account Number (PAN). For American Express,  4 digits located on the front of the card, above the card
+    // number on the right hand side. Visa - CVV2, MasterCard - CVC2, American Express - CID, Discover - CMID,
+    // Union Pay - CVN2, JCB - CAV2.
+    //
+    // It should be a nonce provided by Braintree since Skyscanner is not PCI compliance.
+    string encrypted_card_security_code = 5;
+
+    // The last month of validity Example: 0119
+    string expiration_date = 6;
+    ContactInfo holder_contact = 7;
+    Name holder_name = 8;
+}
+
+message PaymentMethod {
+    PaymentCard payment_card = 1;
+}
+
+message Segment {
+    TransportInfo arrival = 1;
+    TransportInfo departure = 2;
+
+    // 3-8 char, e.g. WH7LNR
+    string fare_basis_code = 3;
+
+    // The commercial designation under which a Dated Operating Segment can be booked,
+    // either under the operating carrier's designator or that of another carrier (codeshare).
+    Carrier marketing_carrier_info = 4;
+
+    // An operation between board point and any subsequent off point within the same flight designator.
+    // Could be one or more legs. Could also be used for other transport vehicles such as train or bus etc.
+    Carrier operating_carrier_info = 5;
+    string segment_id = 6;
+
+    // It could be the RBD code passed by airlines in request. (e.g. P, J, W, M, etc.)
+    string service_class_code = 7;
+}
+
+message SelectedOfferItem {
+    // leg id list
+    repeated string leg_references = 1;
+    string offer_item_id = 2;
+    // segment id list
+    repeated string segment_references = 3;
+    // traveler id list
+    repeated string traveler_references = 4;
+}
+
+message SelectedOffer {
+    repeated SelectedOfferItem selected_offer_items = 1;
+    string offer_id = 2;
+}
+
+message FlightData {
+    repeated Leg legs = 1;
+    repeated Segment segments = 2;
+}
+
+message PaymentInfo {
+    string fraud_data_token = 1;
+
+    // A form of procedure for the payment of goods or services,
+    // plus any transactional information specific to the payment method other than the amount.
+    PaymentMethod payment_method = 2;
+    PaymentPrice payment_price = 3;
+}
+
+message SubmitBookingRQ {
+    AdditionalInfos additional_infos = 1;
+    BasicInfo basic_info = 2;
+    ContactInfo contact_info = 3;
+
+    // Legs/Segments information
+    FlightData flight_data = 4;
+
+    // Information related to the settlement of a transaction through monetary or other compensations.
+    PaymentInfo payment_info = 5;
+
+    // Whether the passenger wants to receive marketing message
+    bool remarketing_consent = 6;
+
+    // Offer selected by the Passenger for requesting an Order to be created,
+    // which could reference (via the offer_id) from a shopping response.
+    SelectedOffer selected_offer = 7;
+
+    // Items no included in flight base offer but passenger can pay extra money to buy. e.g. Seat, Baggage, Insurance
+    repeated OptionalExtra selected_optional_extras = 8;
+
+    // Skyscanner booking reference Identifier.
+    string skyscanner_booking_id = 9;
+
+    // key = traveler's id
+    map<string, TravelerInfo> travelers = 10;
+}
+
+message SubmitBookingRS {
+    ErrorResult errors = 1;
+
+    // Skyscanner booking reference Identifier.
+    string skyscanner_booking_id = 2;
+    enum Status {
+        // Accepted - confirmed the checkout API has received the booking, waiting to here the end state.
+        // Failed - the booking process has failed for any reason
+        STATUS_ACCEPTED = 0;
+        STATUS_FAILED = 1;
+    }
+    Status status = 3;
+}
+
+/////////////////////////////////////////////////////////////////
+
+
+message Date {
+    // The year of this date
+    int32 year = 1;
+    // The month of this date in the range 1 <= month <= 12
+    int32 month = 2;
+    // The day of this date in the range 1 <= day <= 31
+    int32 day = 3;
+}
+
+// For data transmission.
+// e.g. Data from a shopping request which does not belong to any other categories(flight_data, travelers, etc)
+// but is required to create an order
+message AdditionalInfos {
+    map<string ,string> info = 1;
+}
+
+message Amount {
+    double amount = 1;
+}
+
+message City {
+    string city_name = 1;
+    string iata_location_code = 2;
+}
+
+message Country {
+    string country_code = 1;
+    string country_name = 2;
+}
+
+message Description {
+    string link = 1;
+    string text = 2;
+}
+
+message DeviceInfo {
+    string browser_name = 1;
+    string browser_version = 2;
+    enum DeviceType {
+        DEVICE_TYPE_DESKTOP = 0;
+        DEVICE_TYPE_MOBILE = 1;
+        DEVICE_TYPE_TABLET = 2;
+        DEVICE_TYPE_UNKNOWN = 3;
+    }
+    DeviceType device_type = 3;
+    string ip_address_text = 4;
+    string os_name = 5;
+    string os_version = 6;
+    string app_version = 7;
+}
+
+message ErrorResult {
+    // Integer error codes help clients write error handling codes. e.g. 400
+    string error_code_text = 1;
+
+    // Short description of the error.
+    string error_desc = 2;
+
+    // Internal code as defined in zerg. E.g. SKY_PAY_007
+    string sky_code = 3;
+}
+
+message Fee {
+    Amount amount = 1;
+    string currency = 2;
+
+    // Fee/ surcharge Description.  Example: U.S Customs User Fee
+    Description description = 3;
+}
+
+message Location {
+    City city = 1;
+    Country country = 2;
+}
+
+message PointOfSale {
+    DeviceInfo device_info = 1;
+    Location location = 2;
+
+    // e.g.UK,pattern value="^[A-Z]{2}$"
+    string market = 3;
+}
+
+message Price {
+    Amount amount = 1;
+    string currency = 2;
+}
+
+message Tax {
+    // Tax amount. Example: 15000 USD
+    Amount amount = 1;
+    string currency = 2;
+
+    // Tax short description. Example: $4 per flight segment, per passenger (U.S. domestic segment tax)
+    Description description = 3;
+
+    // IATA TTBS Tax Code. Example: AY, GB
+    string tax_code = 4;
+
+    // The name given to describe the tax. For example, this name can be taken from the IATA TTBS
+    string tax_name = 5;
+}
+
+message BasicInfo {
+    // e.g.EUR
+    string currency = 1;
+
+    // the URL of deeplink
+    string deep_link = 2;
+
+    // e.g.en-GB, pattern value="^[a-z]{2}-[a-zA-Z]{2}$"
+    string locale = 3;
+    PointOfSale point_of_sale = 4;
+    enum Proposition {
+        // Identify the the source of the request.
+        PROPOSITION_BWS = 0;
+        PROPOSITION_DBOOK = 1;
+        PROPOSITION_UNSET = 2;
+    }
+    Proposition proposition = 5;
+    bool test_booking = 6;
+
+    // Skyscanner website ID. e.g. byoj
+    string website_id = 7;
+}
+
+message PricedItem {
+    // Base amount for a specific product, purpose, or service.
+    Fee base = 1;
+    string item_id = 2;
+
+    // A compulsory contribution to state revenue, levied by the government on workers' income and business profits
+    // or added to the cost of some goods, services, and transactions.
+    repeated Fee surcharges = 3;
+
+    // Amount added on to a charge for a specific product, purpose, or service.
+    repeated Tax tax = 4;
+    Price total_amount = 5;
+}
+
+message CardSurcharge {
+    repeated Price fees = 1;
+    double percentage = 2;
+    double surcharge_cap = 3;
+    Price total = 4;
+}
+
+message PriceBreakdown {
+    // Surcharge for a specific card type(visa, master, etc).
+    // Where the surcharge is a percentage value of the total amount, values can range from (0.01 to 100).
+    // The value cannot be 0.
+    CardSurcharge card_surcharge = 1;
+    repeated PricedItem priced_items = 2;
+}
+
+message PaymentPrice {
+    PriceBreakdown price_breakdown = 1;
+    Price total_amount = 2;
+}
