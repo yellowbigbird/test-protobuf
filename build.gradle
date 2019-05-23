@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
 }
 
 group 'com.meb.yellowbigbird'
@@ -11,6 +12,33 @@ repositories {
     mavenCentral()
 }
 
+project.ext {
+    mockitoVersion = '2.26.0'
+    protocVersion = '3.7.0'
+    protostuffVersion = '1.6.0'
+    testcontainersVersion = '1.6.0'
+    lombokVersion = '1.18.6'
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // https://mvnrepository.com/artifact/org.apache.servicecomb/foundation-protobuf
+    compile group: 'org.apache.servicecomb', name: 'foundation-protobuf', version: '1.2.1'
+
+    compile "com.google.protobuf:protobuf-java:${protocVersion}"
+    compile "com.google.protobuf:protobuf-java-util:${protocVersion}"
+
+    testCompile "org.mockito:mockito-core:${mockitoVersion}"
+
+    // https://mvnrepository.com/artifact/javax.validation/validation-api
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.16.Final'
+
 }
